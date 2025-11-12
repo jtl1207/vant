@@ -43,22 +43,32 @@ jobs:
         run: |
           cp WebApkShell/genApk.ts .
           bun genApk.ts
-    
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
 
-      - name: Release
+      - name: Create date tag
+        id: tag_step
+        run: |
+          DATE=$(date +'%Y%m%d-%H%M%S')
+          TAG="v${DATE}"
+          echo "生成 Tag: $TAG"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git tag $TAG
+          git push origin $TAG
+
+          # 输出 tag 名
+          echo "tag_name=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag_step.outputs.tag_name }}
           files: |
             WebApkShell/app/build/outputs/apk/release/*.apk
+          name: "Release ${{ steps.tag_step.outputs.tag_name }}"
+          body: |
+            🚀 自动构建版本：${{ steps.tag_step.outputs.tag_name }}
+            📅 构建时间：${{ github.run_started_at }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

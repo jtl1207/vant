@@ -1,0 +1,8 @@
+{
+  "appName": "豆瓣电影",
+  "packageId": "com.douban.movie",
+  "appUrl": "https://movie.douban.com",
+  "allowedDomains": ["douban.com"],
+  "versionName": "1.0.0",
+  "icon": ""
+}

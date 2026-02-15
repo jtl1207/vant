@@ -15,6 +15,10 @@
 }
 ```
 
+💡 **配置说明:** 查看 [CONFIG_GUIDE.md](./CONFIG_GUIDE.md) 了解每个字段的详细说明
+
+💡 **示例配置:** 查看 [app-config.example.json](./app-config.example.json)
+
 ### 2️⃣ 运行构建 / Run Build
 
 ```bash
@@ -31,6 +35,8 @@ WebApkShell/app/build/outputs/apk/release/app_*.apk
 
 ---
 
-完整文档见 [WEBVIEW_APP_README.md](./WEBVIEW_APP_README.md)
+📖 **完整文档:** [WEBVIEW_APP_README.md](./WEBVIEW_APP_README.md)
 
-Full documentation: [WEBVIEW_APP_README.md](./WEBVIEW_APP_README.md)
+🔧 **配置指南:** [CONFIG_GUIDE.md](./CONFIG_GUIDE.md)
+
+⚙️ **示例配置:** [app-config.example.json](./app-config.example.json)

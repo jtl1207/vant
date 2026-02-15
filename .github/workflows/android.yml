@@ -12,22 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Update Submodule
-        run: |
-          # Retry logic for submodule update
-          max_attempts=3
-          attempt=0
-          until [ $attempt -ge $max_attempts ]; do
-            git submodule update --init --recursive && break
-            attempt=$((attempt+1))
-            echo "Submodule update attempt $attempt failed. Retrying..."
-            sleep 5
-          done
-          if [ $attempt -eq $max_attempts ]; then
-            echo "Submodule update failed after $max_attempts attempts"
-            exit 1
-          fi
-
+      
       - name: set up JDK 11
         uses: actions/setup-java@v4
         with:
@@ -70,9 +55,6 @@ jobs:
             exit 1
           fi
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./WebApkShell/gradlew
-
       - name: Install Dependency
         run: |
           # Retry logic for dependency installation
@@ -89,20 +71,19 @@ jobs:
             exit 1
           fi
 
-      - name: Build with Gradle
+      - name: Build Android App
         run: |
-          cp WebApkShell/genApk.ts .
-          # Retry logic for Gradle build (longer delay due to build complexity)
+          # Retry logic for app build (longer delay due to build complexity)
           max_attempts=3
           attempt=0
           until [ $attempt -ge $max_attempts ]; do
-            bun genApk.ts && break
+            bun run build:app && break
             attempt=$((attempt+1))
-            echo "Gradle build attempt $attempt failed. Retrying..."
+            echo "App build attempt $attempt failed. Retrying..."
             sleep 10
           done
           if [ $attempt -eq $max_attempts ]; then
-            echo "Gradle build failed after $max_attempts attempts"
+            echo "App build failed after $max_attempts attempts"
             exit 1
           fi
 

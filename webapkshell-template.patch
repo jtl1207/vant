@@ -1,5 +1,5 @@
 diff --git a/app/src/main/java/com/qcp/androidshell/MainActivity.kt b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
-index 57bb7ab..0ed10fe 100644
+index 57bb7ab..GENERIC 100644
 --- a/app/src/main/java/com/qcp/androidshell/MainActivity.kt
 +++ b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
 @@ -8,6 +8,8 @@ import android.view.View
@@ -25,18 +25,17 @@ index 57bb7ab..0ed10fe 100644
 +                        return false
 +                    }
 +                    
-+                    // Strict domain validation for hanime1.me
++                    // Strict domain validation - ALLOWED_DOMAINS will be replaced by build script
 +                    // Only allow exact domain or subdomains (not just contains)
-+                    if (host == "hanime1.me" || host.endsWith(".hanime1.me")) {
-+                        // Allow the URL to load
++                    val allowedDomains = listOf("__ALLOWED_DOMAINS__")
++                    val isAllowed = allowedDomains.any { domain ->
++                        host == domain || host.endsWith(".$domain")
++                    }
++                    
++                    if (isAllowed) {
 +                        return false
 +                    } else {
-+                        // Block external links (prevent ads)
-+                        Toast.makeText(
-+                            this@MainActivity,
-+                            "已拦截外部链接: $host",
-+                            Toast.LENGTH_SHORT
-+                        ).show()
++                        Toast.makeText(this@MainActivity, "已拦截外部链接: $host", Toast.LENGTH_SHORT).show()
 +                        return true
 +                    }
 +                }
@@ -50,8 +49,7 @@ index 57bb7ab..0ed10fe 100644
  
          webView.addJavascriptInterface(JsObject(), "shell")
 -        webView.loadUrl("file:///android_asset/index.html")
-+        webView.loadUrl("https://hanime1.me")
++        webView.loadUrl("__APP_URL__")
 +//        webView.loadUrl("file:///android_asset/index.html")
  //        webView.loadUrl("http://192.168.185.36:8686/#/")
          setContentView(webView)
- 

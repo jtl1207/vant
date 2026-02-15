@@ -1,0 +1,8 @@
+{
+  "appName": "示例应用",
+  "packageId": "com.example.app",
+  "appUrl": "https://example.com",
+  "allowedDomains": ["example.com"],
+  "versionName": "",
+  "icon": ""
+}

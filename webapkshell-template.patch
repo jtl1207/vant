@@ -2,32 +2,89 @@ diff --git a/app/src/main/java/com/qcp/androidshell/MainActivity.kt b/app/src/ma
 index 57bb7ab..GENERIC 100644
 --- a/app/src/main/java/com/qcp/androidshell/MainActivity.kt
 +++ b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
-@@ -8,6 +8,8 @@ import android.view.View
+@@ -8,6 +8,10 @@ import android.view.View
  import android.webkit.JavascriptInterface
  import android.webkit.WebView
  import android.webkit.WebViewClient
 +import android.webkit.WebResourceRequest
++import android.webkit.WebResourceError
++import android.graphics.Bitmap
 +import android.widget.Toast
  import androidx.appcompat.app.AppCompatActivity
  import kotlinx.coroutines.runBlocking
  import java.io.InputStream
-@@ -58,6 +60,33 @@ class MainActivity : AppCompatActivity() {
+@@ -58,6 +62,87 @@ class MainActivity : AppCompatActivity() {
  
          webView = WebView(this)
          webView.webViewClient = object : WebViewClient() {
++            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
++                super.onPageStarted(view, url, favicon)
++                // Page loading started - you can show a loading indicator here if needed
++            }
++
++            override fun onPageFinished(view: WebView?, url: String?) {
++                super.onPageFinished(view, url)
++                // Page loading finished
++            }
++
++            override fun onReceivedError(
++                view: WebView?,
++                request: WebResourceRequest?,
++                error: WebResourceError?
++            ) {
++                super.onReceivedError(view, request, error)
++                // Only show error for main frame (not resources like images)
++                if (request?.isForMainFrame == true) {
++                    val errorHtml = """
++                        <!DOCTYPE html>
++                        <html>
++                        <head>
++                            <meta charset="UTF-8">
++                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
++                            <style>
++                                body { 
++                                    font-family: Arial, sans-serif; 
++                                    text-align: center; 
++                                    padding: 50px; 
++                                    background: #f5f5f5;
++                                }
++                                h1 { color: #333; }
++                                p { color: #666; margin: 20px 0; }
++                                button { 
++                                    background: #2759d5; 
++                                    color: white; 
++                                    border: none; 
++                                    padding: 12px 24px; 
++                                    border-radius: 5px; 
++                                    font-size: 16px;
++                                    cursor: pointer;
++                                }
++                            </style>
++                        </head>
++                        <body>
++                            <h1>无法加载页面</h1>
++                            <p>请检查网络连接后重试</p>
++                            <button onclick="window.location.reload()">重新加载</button>
++                        </body>
++                        </html>
++                    """.trimIndent()
++                    view?.loadDataWithBaseURL(null, errorHtml, "text/html", "UTF-8", null)
++                }
++            }
++
 +            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
 +                request?.let {
 +                    val url = it.url.toString()
 +                    val host = it.url.host ?: ""
 +                    
 +                    // Allow safe about: schemes
-+                    if (url.startsWith("about:blank")) {
++                    if (url.startsWith("about:blank") || url.startsWith("data:")) {
 +                        return false
 +                    }
 +                    
 +                    // Strict domain validation - ALLOWED_DOMAINS will be replaced by build script
 +                    // Only allow exact domain or subdomains (not just contains)
-+                    val allowedDomains = listOf("__ALLOWED_DOMAINS__")
++                    val allowedDomains = listOf(__ALLOWED_DOMAINS__)
 +                    val isAllowed = allowedDomains.any { domain ->
 +                        host == domain || host.endsWith(".$domain")
 +                    }
@@ -44,7 +101,7 @@ index 57bb7ab..GENERIC 100644
  //            override fun shouldInterceptRequest(
  //                view: WebView,
  //                request: WebResourceRequest
-@@ -110,7 +139,8 @@ class MainActivity : AppCompatActivity() {
+@@ -110,7 +195,8 @@ class MainActivity : AppCompatActivity() {
          }
  
          webView.addJavascriptInterface(JsObject(), "shell")
@@ -53,3 +110,4 @@ index 57bb7ab..GENERIC 100644
 +//        webView.loadUrl("file:///android_asset/index.html")
  //        webView.loadUrl("http://192.168.185.36:8686/#/")
          setContentView(webView)
+

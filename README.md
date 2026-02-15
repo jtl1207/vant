@@ -7,6 +7,16 @@
 
 ## 🚀 Quick Start / 快速开始
 
+### ⚠️ Important Notes / 重要说明
+
+**White Screen Fix / 白屏修复**: This version includes automatic error handling. If the app cannot load your website, it will show a user-friendly error page with a retry button instead of a blank white screen.  
+**白屏修复**: 此版本包含自动错误处理。如果应用无法加载您的网站，它将显示一个用户友好的错误页面和重试按钮，而不是空白屏幕。
+
+**Icon Setup / 图标设置**: See [ICON_SETUP.md](ICON_SETUP.md) for detailed instructions on customizing your app icon.  
+**图标设置**: 查看 [ICON_SETUP.md](ICON_SETUP.md) 了解自定义应用图标的详细说明。
+
+---
+
 ### Step 1: Fork and Clone / 第一步：分支并克隆
 
 ```bash
@@ -173,6 +183,16 @@ No. Adding `example.com` automatically allows all `*.example.com` subdomains.
    检查 Bun 和 JDK 是否已安装
 4. See build logs for specific errors  
    查看构建日志了解具体错误
+
+### App shows white screen / 应用显示白屏？
+See [FAQ.md](FAQ.md) for detailed troubleshooting steps.  
+查看 [FAQ.md](FAQ.md) 了解详细的故障排除步骤。
+
+### How to set custom icon? / 如何设置自定义图标？
+See [ICON_SETUP.md](ICON_SETUP.md) for detailed icon setup guide.  
+查看 [ICON_SETUP.md](ICON_SETUP.md) 了解详细的图标设置指南。
+
+**For more questions, see [FAQ.md](FAQ.md) / 更多问题请查看 [FAQ.md](FAQ.md)**
 
 ---
 

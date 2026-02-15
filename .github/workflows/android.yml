@@ -104,8 +104,17 @@ jobs:
             exit 1
           fi
           
+          # Sanitize APP_NAME for use in Git tag (replace spaces with hyphens, remove special chars)
+          APP_NAME_SAFE=$(echo "$APP_NAME" | tr ' ' '-' | tr -cd 'a-zA-Z0-9-_')
+          
+          # Fallback to 'App' if sanitized name is empty (e.g., for non-ASCII names)
+          if [ -z "$APP_NAME_SAFE" ]; then
+            APP_NAME_SAFE="App"
+          fi
+          
           DATE=$(date +'%Y%m%d-%H%M%S')
-          TAG="${APP_NAME}-v${DATE}"
+          TAG="${APP_NAME_SAFE}-v${DATE}"
+          echo "应用名称: $APP_NAME"
           echo "生成 Tag: $TAG"
 
           git config user.name "github-actions[bot]"

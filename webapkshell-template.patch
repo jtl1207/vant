@@ -13,7 +13,7 @@ index 57bb7ab..GENERIC 100644
  import androidx.appcompat.app.AppCompatActivity
  import kotlinx.coroutines.runBlocking
  import java.io.InputStream
-@@ -58,6 +62,60 @@ class MainActivity : AppCompatActivity() {
+@@ -58,6 +62,87 @@ class MainActivity : AppCompatActivity() {
  
          webView = WebView(this)
          webView.webViewClient = object : WebViewClient() {
@@ -101,7 +101,7 @@ index 57bb7ab..GENERIC 100644
  //            override fun shouldInterceptRequest(
  //                view: WebView,
  //                request: WebResourceRequest
-@@ -110,7 +168,8 @@ class MainActivity : AppCompatActivity() {
+@@ -110,7 +195,8 @@ class MainActivity : AppCompatActivity() {
          }
  
          webView.addJavascriptInterface(JsObject(), "shell")
@@ -110,3 +110,4 @@ index 57bb7ab..GENERIC 100644
 +//        webView.loadUrl("file:///android_asset/index.html")
  //        webView.loadUrl("http://192.168.185.36:8686/#/")
          setContentView(webView)
+

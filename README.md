@@ -7,32 +7,11 @@
 
 ## 🚀 Quick Start / 快速开始
 
-### ⚠️ Important Notes / 重要说明
-
-**White Screen Fix / 白屏修复**: This version includes automatic error handling. If the app cannot load your website, it will show a user-friendly error page with a retry button instead of a blank white screen.  
-**白屏修复**: 此版本包含自动错误处理。如果应用无法加载您的网站，它将显示一个用户友好的错误页面和重试按钮，而不是空白屏幕。
-
-**Auto Favicon Icon / 自动网页图标**: The app automatically uses the website's favicon as the app icon in the recent apps screen (task switcher). No manual configuration needed!  
-**自动网页图标**: 应用会自动使用网站的 favicon 作为最近应用屏幕（任务切换器）中的应用图标。无需手动配置！
-
-**Screen Rotation Support / 屏幕旋转支持**: The app properly handles screen rotation without refreshing the page. Video playback and fullscreen features work correctly when rotating the device.  
-**屏幕旋转支持**: 应用正确处理屏幕旋转而不会刷新页面。旋转设备时，视频播放和全屏功能可以正常工作。
-
-**Icon Setup / 图标设置**: See [ICON_SETUP.md](ICON_SETUP.md) for detailed instructions on customizing your app icon.  
-**图标设置**: 查看 [ICON_SETUP.md](ICON_SETUP.md) 了解自定义应用图标的详细说明。
-
----
-
 ### Step 1: Fork and Clone / 第一步：分支并克隆
 
 ```bash
 # Fork this repository on GitHub
 # 在 GitHub 上 Fork 这个仓库
-
-# Clone your fork
-# 克隆你的 fork
-git clone https://github.com/YOUR_USERNAME/vant.git
-cd vant
 ```
 
 ### Step 2: Configure Your App / 第二步：配置你的应用
@@ -47,7 +26,7 @@ Edit `app-config.json`:
   "appUrl": "https://yourwebsite.com",  // 你的网站 URL
   "allowedDomains": ["yourwebsite.com"], // 允许访问的域名
   "versionName": "",                     // 版本号（可选，留空自动生成）
-  "icon": ""                             // 图标路径（可选）
+  "icon": ""                             // 图标路径（留空默认使用网站图标）
 }
 ```
 
@@ -108,7 +87,7 @@ bun run build:app
 **Important Notes / 重要说明：**
 
 - **packageId**: Must be unique globally, format: `com.company.appname`  
-  **包名**: 必须全局唯一，格式：`com.公司名.应用名`
+  **包名**: 必须全局唯一，格式：`com.a.b`
 
 - **allowedDomains**: Only these domains can be navigated. Subdomains are automatically included.  
   **允许的域名**: 只有这些域名可以导航。子域名自动包含。
@@ -125,7 +104,7 @@ bun run build:app
   
   ⚠️ **Cloudflare Users / Cloudflare 用户注意**: If your website uses Cloudflare for CDN or protection, you may need to add `"cloudflare.com"` to allowedDomains to prevent blocking Cloudflare-hosted resources.  
   **如果您的网站使用 Cloudflare 作为 CDN 或保护服务，您可能需要将 `"cloudflare.com"` 添加到 allowedDomains 中，以防止拦截 Cloudflare 托管的资源。**
-
+  **Cloudflare 并非必须，大部分时候不添加也可以使用，建议添加。**
 ---
 
 ## 🔒 Security Features / 安全特性
@@ -227,37 +206,8 @@ The app automatically captures and uses the website's favicon as the icon in the
 
 Note: The launcher icon (home screen icon) is still set from your app configuration, but the recent apps icon will show your website's favicon.  
 注意：启动器图标（主屏幕图标）仍然从您的应用配置中设置，但最近应用图标将显示您网站的 favicon。
-
-### Does the app support screen rotation? / 应用支持屏幕旋转吗？
-**Yes!** / **是的！**
-
-The app properly handles screen rotation without reloading the page. This is especially important for:  
-应用正确处理屏幕旋转而不会重新加载页面。这对以下情况特别重要：
-
-- Video playback and fullscreen mode / 视频播放和全屏模式
-- Form data preservation / 表单数据保留
-- Maintaining scroll position / 保持滚动位置
-
-The app uses `android:configChanges="orientation|screenSize|keyboardHidden"` to handle rotation events smoothly.  
-应用使用 `android:configChanges="orientation|screenSize|keyboardHidden"` 来平滑处理旋转事件。
-
-**For more questions, see [FAQ.md](FAQ.md) / 更多问题请查看 [FAQ.md](FAQ.md)**
-
 ---
 
-## 📂 Project Structure / 项目结构
-
-```
-.
-├── app-config.json              # Your app configuration / 应用配置
-├── build-app.ts                 # Build script (don't modify) / 构建脚本（无需修改）
-├── webapkshell-template.patch   # Template (don't modify) / 模板（无需修改）
-├── package.json                 # Dependencies / 依赖
-├── .github/workflows/           # CI/CD automation / 自动化构建
-└── WebApkShell/                 # Android project (auto-generated) / Android 项目（自动生成）
-```
-
----
 
 ## 📄 License / 许可证
 

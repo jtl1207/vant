@@ -90,8 +90,20 @@ jobs:
       - name: Create date tag
         id: tag_step
         run: |
-          # Read app name from config
-          APP_NAME=$(cat app-config.json | grep -o '"appName"[[:space:]]*:[[:space:]]*"[^"]*"' | cut -d'"' -f4)
+          # Read app name from config using jq (more robust than grep)
+          if [ ! -f app-config.json ]; then
+            echo "Error: app-config.json not found"
+            exit 1
+          fi
+          
+          APP_NAME=$(jq -r '.appName' app-config.json)
+          
+          # Validate APP_NAME is not empty
+          if [ -z "$APP_NAME" ] || [ "$APP_NAME" = "null" ]; then
+            echo "Error: appName not found in app-config.json"
+            exit 1
+          fi
+          
           DATE=$(date +'%Y%m%d-%H%M%S')
           TAG="${APP_NAME}-v${DATE}"
           echo "生成 Tag: $TAG"

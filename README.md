@@ -174,6 +174,16 @@ No. Adding `example.com` automatically allows all `*.example.com` subdomains.
 4. See build logs for specific errors  
    查看构建日志了解具体错误
 
+### App shows white screen / 应用显示白屏？
+See [FAQ.md](FAQ.md) for detailed troubleshooting steps.  
+查看 [FAQ.md](FAQ.md) 了解详细的故障排除步骤。
+
+### How to set custom icon? / 如何设置自定义图标？
+See [ICON_SETUP.md](ICON_SETUP.md) for detailed icon setup guide.  
+查看 [ICON_SETUP.md](ICON_SETUP.md) 了解详细的图标设置指南。
+
+**For more questions, see [FAQ.md](FAQ.md) / 更多问题请查看 [FAQ.md](FAQ.md)**
+
 ---
 
 ## 📂 Project Structure / 项目结构

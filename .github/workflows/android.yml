@@ -50,9 +50,14 @@ jobs:
             echo "Bun installation attempt $attempt failed. Retrying..."
             sleep 5
           done
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Bun installation failed after $max_attempts attempts"
+            exit 1
+          fi
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
           
           # Retry logic for pnpm installation
+          max_attempts=3
           attempt=0
           until [ $attempt -ge $max_attempts ]; do
             curl -fsSL https://get.pnpm.io/install.sh | sh - && break
@@ -60,6 +65,10 @@ jobs:
             echo "pnpm installation attempt $attempt failed. Retrying..."
             sleep 5
           done
+          if [ $attempt -eq $max_attempts ]; then
+            echo "pnpm installation failed after $max_attempts attempts"
+            exit 1
+          fi
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./WebApkShell/gradlew

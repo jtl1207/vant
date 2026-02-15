@@ -1,181 +1,206 @@
-<p align="center">
-    <img alt="logo" src="https://fastly.jsdelivr.net/npm/@vant/assets/logo.png" width="120" height="120" style="margin-bottom: 10px;">
-</p>
+# 📱 WebView App Builder / WebView 应用构建器
 
-<h1 align="center">Vant</h1>
-
-<p align="center">A lightweight, customizable Vue UI library for mobile web apps.</p>
-
-<p align="center">
-    <img src="https://img.shields.io/npm/v/vant?style=flat-square" alt="npm version" />
-    <img src="https://img.shields.io/codecov/c/github/youzan/vant/main.svg?style=flat-square&color=#4fc08d" alt="Coverage Status" />
-    <img src="https://img.shields.io/npm/dm/vant.svg?style=flat-square&color=#4fc08d" alt="downloads" />
-</p>
-
-<p align="center">
-  <a href="https://vant-ui.github.io/vant">Documentation</a>
-  &nbsp;
-  ·
-  &nbsp;
-  <a href="https://vant.pro/vant/">Documentation (backup)</a>
-  &nbsp;
-  ·
-  &nbsp;
-  <a href="./README.zh-CN.md">中文介绍</a>
-</p>
+> Package any website as an Android app in 3 simple steps  
+> 将任何网站打包成 Android 应用，只需 3 个简单步骤
 
 ---
 
-## Features
+## 🚀 Quick Start / 快速开始
 
-- 🚀 1KB Component average size (min+gzip)
-- 🚀 80+ High quality components
-- 🚀 Zero third-party dependencies
-- 💪 90%+ Unit test coverage
-- 💪 Written in TypeScript
-- 📖 Extensive documentation and demos
-- 📖 Provide Sketch and Axure design resources
-- 🍭 Support Vue 2 & Vue 3
-- 🍭 Support Nuxt 2 & Nuxt 3, provide [Vant Module](https://github.com/vant-ui/vant-nuxt) for Nuxt
-- 🍭 Support Tree Shaking
-- 🍭 Support Custom Theme
-- 🍭 Support Accessibility (still improving)
-- 🍭 Support Dark Mode
-- 🍭 Support SSR
-- 🌍 Support i18n, built-in 30+ languages
-
-## Install
-
-Using `npm` to install:
+### Step 1: Fork and Clone / 第一步：分支并克隆
 
 ```bash
-# install latest Vant for Vue 3 project
-npm i vant
+# Fork this repository on GitHub
+# 在 GitHub 上 Fork 这个仓库
 
-# install Vant 2 for Vue 2 project
-npm i vant@latest-v2
+# Clone your fork
+# 克隆你的 fork
+git clone https://github.com/YOUR_USERNAME/vant.git
+cd vant
 ```
 
-Using `yarn`, `pnpm`, or `bun`:
+### Step 2: Configure Your App / 第二步：配置你的应用
+
+Edit `app-config.json`:  
+编辑 `app-config.json` 文件：
+
+```json
+{
+  "appName": "Your App Name",           // 应用名称
+  "packageId": "com.yourcompany.app",   // 包名（需唯一）
+  "appUrl": "https://yourwebsite.com",  // 你的网站 URL
+  "allowedDomains": ["yourwebsite.com"], // 允许访问的域名
+  "versionName": "",                     // 版本号（可选，留空自动生成）
+  "icon": ""                             // 图标路径（可选）
+}
+```
+
+**Configuration Examples / 配置示例：**
+
+```json
+// Example 1: Blog / 示例 1：博客
+{
+  "appName": "My Blog",
+  "packageId": "com.myblog.app",
+  "appUrl": "https://myblog.com",
+  "allowedDomains": ["myblog.com"]
+}
+
+// Example 2: Video Site / 示例 2：视频站点
+{
+  "appName": "Hanime",
+  "packageId": "com.hanime1.app",
+  "appUrl": "https://hanime1.me",
+  "allowedDomains": ["hanime1.me"]
+}
+
+// Example 3: Multi-domain / 示例 3：多域名
+{
+  "appName": "My Site",
+  "packageId": "com.mysite.app",
+  "appUrl": "https://www.mysite.com",
+  "allowedDomains": ["mysite.com", "api.mysite.com", "cdn.mysite.com"]
+}
+```
+
+### Step 3: Build APK / 第三步：构建 APK
 
 ```bash
-# with yarn
-yarn add vant
+# Install dependencies / 安装依赖
+bun install
 
-# with pnpm
-pnpm add vant
+# Build the app / 构建应用
+bun run build:app
 
-# with Bun
-bun add vant
+# Get your APK / 获取你的 APK
+# Output: WebApkShell/app/build/outputs/apk/release/app_*.apk
 ```
 
-## Scaffold
+---
 
-It is recommended to use [Rsbuild](https://github.com/web-infra-dev/rsbuild) to create a scaffold project.
+## 📋 Configuration Fields / 配置字段说明
 
-Rsbuild is a build tool based on Rspack, developed by the author of Vant, with first-class build speed and development experience, providing first-priority support for Vant.
+| Field / 字段 | Description / 说明 | Required / 必填 |
+|--------------|-------------------|----------------|
+| `appName` | App name shown on device / 设备上显示的应用名称 | ✅ Yes / 是 |
+| `packageId` | Unique package identifier (reverse domain) / 唯一包标识符（反向域名） | ✅ Yes / 是 |
+| `appUrl` | Website URL to load / 要加载的网站 URL | ✅ Yes / 是 |
+| `allowedDomains` | Domains allowed for navigation (blocks ads) / 允许导航的域名（拦截广告） | ✅ Yes / 是 |
+| `versionName` | App version (auto-generated if empty) / 应用版本（留空自动生成） | ❌ No / 否 |
+| `icon` | Custom app icon path / 自定义应用图标路径 | ❌ No / 否 |
 
-You can create a Rsbuild project with the following command:
+**Important Notes / 重要说明：**
 
-```bash
-npm create rsbuild@latest
+- **packageId**: Must be unique globally, format: `com.company.appname`  
+  **包名**: 必须全局唯一，格式：`com.公司名.应用名`
+
+- **allowedDomains**: Only these domains can be navigated. Subdomains are automatically included.  
+  **允许的域名**: 只有这些域名可以导航。子域名自动包含。
+  
+  Example / 例如: `"hanime1.me"` allows / 允许:
+  - `hanime1.me`
+  - `www.hanime1.me`
+  - `*.hanime1.me`
+  
+  But blocks / 但拦截:
+  - `evil.com`
+  - `ads.network.com`
+  - All other domains / 所有其他域名
+
+---
+
+## 🔒 Security Features / 安全特性
+
+- ✅ **Link Blocking** / **链接拦截**: Automatically blocks external links (ads, redirects)  
+  自动拦截外部链接（广告、重定向）
+
+- ✅ **Domain Validation** / **域名验证**: Strict domain suffix matching  
+  严格的域名后缀匹配
+
+- ✅ **XSS Protection** / **XSS 防护**: Blocks `javascript:`, `data:` schemes  
+  阻止 `javascript:`、`data:` 协议
+
+- ✅ **Safe Navigation** / **安全导航**: Only allows configured domains  
+  仅允许配置的域名
+
+---
+
+## 🛠️ Requirements / 系统要求
+
+- [Bun](https://bun.sh) runtime  
+- JDK 11 or higher / JDK 11 或更高版本
+- Android SDK (auto-downloaded by Gradle) / Android SDK（Gradle 自动下载）
+
+---
+
+## 🤖 GitHub Actions (Optional) / GitHub Actions（可选）
+
+This repository includes GitHub Actions for automatic APK building:  
+本仓库包含 GitHub Actions 自动构建 APK：
+
+1. Push to `main` branch / 推送到 `main` 分支
+2. APK automatically built / APK 自动构建
+3. Release created with APK / 创建包含 APK 的 Release
+
+See `.github/workflows/android.yml` for details.  
+详见 `.github/workflows/android.yml`
+
+---
+
+## ❓ FAQ / 常见问题
+
+### How to change app name? / 如何更改应用名称？
+Edit `appName` in `app-config.json` and rebuild.  
+编辑 `app-config.json` 中的 `appName` 并重新构建。
+
+### How to add multiple domains? / 如何添加多个域名？
+Add to `allowedDomains` array:  
+添加到 `allowedDomains` 数组：
+```json
+"allowedDomains": ["example.com", "api.example.com", "cdn.example.com"]
 ```
 
-Please visit the [Rsbuild repository](https://github.com/web-infra-dev/rsbuild) for more information.
+### Do I need to add subdomains separately? / 需要单独添加子域名吗？
+No. Adding `example.com` automatically allows all `*.example.com` subdomains.  
+不需要。添加 `example.com` 会自动允许所有 `*.example.com` 子域名。
 
-## Quickstart
+### Build failed, what should I check? / 构建失败，应该检查什么？
+1. Check `app-config.json` format is valid JSON  
+   检查 `app-config.json` 格式是否为有效的 JSON
+2. Ensure `packageId` is unique and properly formatted  
+   确保 `packageId` 唯一且格式正确
+3. Check Bun and JDK are installed  
+   检查 Bun 和 JDK 是否已安装
+4. See build logs for specific errors  
+   查看构建日志了解具体错误
 
-```js
-import { createApp } from 'vue';
-// 1. Import the components you need
-import { Button } from 'vant';
-// 2. Import the components style
-import 'vant/lib/index.css';
+---
 
-const app = createApp();
+## 📂 Project Structure / 项目结构
 
-// 3. Register the components you need
-app.use(Button);
+```
+.
+├── app-config.json              # Your app configuration / 应用配置
+├── build-app.ts                 # Build script (don't modify) / 构建脚本（无需修改）
+├── webapkshell-template.patch   # Template (don't modify) / 模板（无需修改）
+├── package.json                 # Dependencies / 依赖
+├── .github/workflows/           # CI/CD automation / 自动化构建
+└── WebApkShell/                 # Android project (auto-generated) / Android 项目（自动生成）
 ```
 
-See more in [Quickstart](https://vant-ui.github.io/vant/#/en-US/quickstart).
+---
 
-## Browser Support
+## 📄 License / 许可证
 
-Vant 2 supports modern browsers and Android >= 4.0、iOS >= 8.0.
+MIT License
 
-Vant 3/4 supports modern browsers and Chrome >= 51、iOS >= 10.0 (same as Vue 3).
+---
 
-## Official Ecosystem
+## 🤝 Contributing / 贡献
 
-| Project | Description |
-| --- | --- |
-| [vant-weapp](https://github.com/vant-ui/vant-weapp) | WeChat MiniProgram UI |
-| [vant-demo](https://github.com/vant-ui/vant-demo) | Collection of Vant demos |
-| [vant-cli](https://github.com/vant-ui/vant/tree/main/packages/vant-cli) | Scaffold for UI library |
-| [vant-icons](https://github.com/vant-ui/vant/tree/main/packages/vant-icons) | Vant icons |
-| [vant-touch-emulator](https://github.com/vant-ui/vant/tree/main/packages/vant-touch-emulator) | Using vant in desktop browsers |
-| [vant-nuxt](https://github.com/vant-ui/vant-nuxt) | Vant module for Nuxt |
+Issues and Pull Requests are welcome!  
+欢迎提交 Issue 和 Pull Request！
 
-## Community Ecosystem
+---
 
-| Project | Description |
-| --- | --- |
-| [3lang3/react-vant](https://github.com/3lang3/react-vant) | React mobile UI Components based on Vant |
-| [vant-aliapp](https://github.com/ant-move/Vant-Aliapp) | Alipay MiniProgram UI |
-| [vant-theme](https://github.com/Aisen60/vant-theme) | Online theme preview built on Vant UI |
-| [@antmjs/vantui](https://github.com/antmjs/vantui) | Mobile UI Components based on Vant, supporting Taro and React |
-| [Taroify](https://github.com/mallfoundry/taroify) | Taroify is the Taro version of Vant |
-| [vant-playground](https://github.com/LadyChatterleyLover/vant-playground) | Vant Playground |
-| [sfc-playground-vant](https://github.com/zhixiaoqiang/sfc-playground-vant) | Vant Playground |
-| [vue3-h5-template](https://github.com/yulimchen/vue3-h5-template) | Mobile project template based on Vant |
-| [vue3-vant-mobile](https://github.com/vue-zone/vue3-vant-mobile) | Mobile project template based on Vant, out of the box |
-| [vscode-common-intellisense](https://github.com/Simon-He95/vscode-common-intellisense) | A VS Code extension that provides better intellisense to Vant developers |
-| [nuxt-vant-mobile](https://github.com/vue-zone/nuxt-vant-mobile) | Nuxt _⁴_ project template based on Vant, out of the box |
-| [mobvue](https://github.com/un-pany/mobvue) | A well-crafted mobile web app template |
-| [novlan1/press-ui](https://github.com/novlan1/press-ui) | Uni APP mobile UI Components based on Vant |
-
-## Links
-
-- [Documentation](https://vant-ui.github.io/vant/)
-- [Documentation (backup)](https://vant.pro/vant/)
-- [Changelog](https://vant-ui.github.io/vant/#/en-US/changelog)
-- [Discussions](https://github.com/vant-ui/vant/discussions)
-
-## Preview
-
-You can scan the following QR code to access the demo：
-
-<img src="https://fastly.jsdelivr.net/npm/@vant/assets/preview-qrcode.png" width="220" height="220" >
-
-## Core Team
-
-Core contributors of Vant and Vant Weapp:
-
-| [![chenjiahan](https://avatars.githubusercontent.com/u/7237365?s=80&v=4)](https://github.com/chenjiahan/) | [![cookfront](https://avatars.githubusercontent.com/u/4829465?s=80&v=4)](https://github.com/cookfront/) | [![w91](https://avatars.githubusercontent.com/u/2599455?s=80&v=4)](https://github.com/w91/) | [![pangxie1991](https://avatars.githubusercontent.com/u/5961240?s=80&v=4)](https://github.com/pangxie1991/) | [![rex-zsd](https://avatars.githubusercontent.com/u/8767877?s=80&v=4)](https://github.com/rex-zsd/) | [![nemo-shen](https://avatars.githubusercontent.com/u/13480805?s=80&v=4)](https://github.com/nemo-shen/) |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| [chenjiahan](https://github.com/chenjiahan/) | [cookfront](https://github.com/cookfront/) | [wangnaiyi](https://github.com/w91/) | [pangxie](https://github.com/pangxie1991/) | [rex-zsd](https://github.com/rex-zsd/) | [nemo-shen](https://github.com/nemo-shen/) |
-
-| [![Lindysen](https://avatars.githubusercontent.com/u/33708359?s=80&v=4)](https://github.com/Lindysen/) | [![JakeLaoyu](https://avatars.githubusercontent.com/u/16181940?s=80&v=4)](https://github.com/JakeLaoyu/) | [![landluck](https://avatars.githubusercontent.com/u/27060081?s=80&v=4)](https://github.com/landluck/) | [![wjw-gavin](https://avatars.githubusercontent.com/u/19986739?s=80&v=4)](https://github.com/wjw-gavin/) | [![inottn](https://avatars.githubusercontent.com/u/18509404?s=80&v=4)](https://github.com/inottn/) | [![zhousg](https://avatars.githubusercontent.com/u/15833290?s=80&v=4)](https://github.com/zhousg/) |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| [Lindysen](https://github.com/Lindysen/) | [JakeLaoyu](https://github.com/JakeLaoyu/) | [landluck](https://github.com/landluck/) | [wjw-gavin](https://github.com/wjw-gavin/) | [inottn](https://github.com/inottn/) | [zhousg](https://github.com/zhousg/) |
-
-## All Contributors
-
-Thanks to the following friends for their contributions to Vant:
-
-<a href="https://github.com/vant-ui/vant/graphs/contributors">
-  <img src="https://opencollective.com/vant/contributors.svg?width=890&button=false" alt="contributors">
-</a>
-
-## Contribution Guide
-
-Please make sure to read the [Contributing Guide](./.github/CONTRIBUTING.md) before making a pull request.
-
-## Start On Web IDE
-
-[https://github.dev/youzan/vant](https://github.dev/youzan/vant)
-
-## LICENSE
-
-Vant is [MIT](https://github.com/youzan/vant/blob/main/LICENSE) licensed.
+**🎉 Build your app in 5 minutes! / 5 分钟构建你的应用！**

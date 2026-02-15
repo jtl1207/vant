@@ -9,13 +9,15 @@
     "test:update": "pnpm --dir ./packages/vant test:update",
     "test:coverage": "pnpm --dir ./packages/vant test:coverage",
     "build": "pnpm --dir ./packages/vant build",
-    "build:site": "pnpm --dir ./packages/vant build:site"
+    "build:site": "pnpm --dir ./packages/vant build:site",
+    "build:app": "bun run build-app.ts"
   },
   "webApkShell": {
-    "build_script": "pnpm run build:site",
+    "build_script": "",
     "dist_path": "./packages/vant/site-dist",
-    "AP_ID": "com.t.vant",
-    "AP_NAME": "VANT",
+    "AP_ID": "com.example.webview",
+    "AP_NAME": "WebView App",
+    "AP_URL": "https://example.com",
     "AP_VERSION_NAME": ""
   },
   "nano-staged": {

@@ -1,0 +1,8 @@
+{
+  "appName": "Hanime",
+  "packageId": "com.hanime1.app",
+  "appUrl": "https://hanime1.me",
+  "allowedDomains": ["hanime1.me"],
+  "versionName": "",
+  "icon": ""
+}

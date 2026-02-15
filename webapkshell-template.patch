@@ -1,0 +1,55 @@
+diff --git a/app/src/main/java/com/qcp/androidshell/MainActivity.kt b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
+index 57bb7ab..GENERIC 100644
+--- a/app/src/main/java/com/qcp/androidshell/MainActivity.kt
++++ b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
+@@ -8,6 +8,8 @@ import android.view.View
+ import android.webkit.JavascriptInterface
+ import android.webkit.WebView
+ import android.webkit.WebViewClient
++import android.webkit.WebResourceRequest
++import android.widget.Toast
+ import androidx.appcompat.app.AppCompatActivity
+ import kotlinx.coroutines.runBlocking
+ import java.io.InputStream
+@@ -58,6 +60,33 @@ class MainActivity : AppCompatActivity() {
+ 
+         webView = WebView(this)
+         webView.webViewClient = object : WebViewClient() {
++            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
++                request?.let {
++                    val url = it.url.toString()
++                    val host = it.url.host ?: ""
++                    
++                    // Allow safe about: schemes
++                    if (url.startsWith("about:blank")) {
++                        return false
++                    }
++                    
++                    // Strict domain validation - ALLOWED_DOMAINS will be replaced by build script
++                    // Only allow exact domain or subdomains (not just contains)
++                    val allowedDomains = listOf("__ALLOWED_DOMAINS__")
++                    val isAllowed = allowedDomains.any { domain ->
++                        host == domain || host.endsWith(".$domain")
++                    }
++                    
++                    if (isAllowed) {
++                        return false
++                    } else {
++                        Toast.makeText(this@MainActivity, "已拦截外部链接: $host", Toast.LENGTH_SHORT).show()
++                        return true
++                    }
++                }
++                return super.shouldOverrideUrlLoading(view, request)
++            }
+ //            override fun shouldInterceptRequest(
+ //                view: WebView,
+ //                request: WebResourceRequest
+@@ -110,7 +139,8 @@ class MainActivity : AppCompatActivity() {
+         }
+ 
+         webView.addJavascriptInterface(JsObject(), "shell")
+-        webView.loadUrl("file:///android_asset/index.html")
++        webView.loadUrl("__APP_URL__")
++//        webView.loadUrl("file:///android_asset/index.html")
+ //        webView.loadUrl("http://192.168.185.36:8686/#/")
+         setContentView(webView)

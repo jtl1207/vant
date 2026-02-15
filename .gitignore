@@ -20,3 +20,7 @@ changelog.generated.md
 
 # temp file
 packages/vant/README.md
+
+# WebView app builder
+webapkshell-custom.patch
+WebApkShell/app/build/

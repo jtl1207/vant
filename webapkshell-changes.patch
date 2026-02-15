@@ -1,5 +1,5 @@
 diff --git a/app/src/main/java/com/qcp/androidshell/MainActivity.kt b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
-index 57bb7ab..0108847 100644
+index 57bb7ab..0ed10fe 100644
 --- a/app/src/main/java/com/qcp/androidshell/MainActivity.kt
 +++ b/app/src/main/java/com/qcp/androidshell/MainActivity.kt
 @@ -8,6 +8,8 @@ import android.view.View
@@ -11,7 +11,7 @@ index 57bb7ab..0108847 100644
  import androidx.appcompat.app.AppCompatActivity
  import kotlinx.coroutines.runBlocking
  import java.io.InputStream
-@@ -58,6 +60,27 @@ class MainActivity : AppCompatActivity() {
+@@ -58,6 +60,33 @@ class MainActivity : AppCompatActivity() {
  
          webView = WebView(this)
          webView.webViewClient = object : WebViewClient() {
@@ -20,8 +20,14 @@ index 57bb7ab..0108847 100644
 +                    val url = it.url.toString()
 +                    val host = it.url.host ?: ""
 +                    
-+                    // Allow navigation only within hanime1.me domain
-+                    if (host.contains("hanime1.me") || host.isEmpty()) {
++                    // Allow safe about: schemes
++                    if (url.startsWith("about:blank")) {
++                        return false
++                    }
++                    
++                    // Strict domain validation for hanime1.me
++                    // Only allow exact domain or subdomains (not just contains)
++                    if (host == "hanime1.me" || host.endsWith(".hanime1.me")) {
 +                        // Allow the URL to load
 +                        return false
 +                    } else {
@@ -39,7 +45,7 @@ index 57bb7ab..0108847 100644
  //            override fun shouldInterceptRequest(
  //                view: WebView,
  //                request: WebResourceRequest
-@@ -110,7 +133,8 @@ class MainActivity : AppCompatActivity() {
+@@ -110,7 +139,8 @@ class MainActivity : AppCompatActivity() {
          }
  
          webView.addJavascriptInterface(JsObject(), "shell")

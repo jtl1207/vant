@@ -102,13 +102,21 @@ bun genApk.ts
 
 ## 链接拦截功能说明
 
-应用会自动拦截所有不属于 `hanime1.me` 域名的链接:
-- ✅ 允许: `https://hanime1.me/*`
-- ✅ 允许: `https://www.hanime1.me/*`
-- ✅ 允许: `https://subdomain.hanime1.me/*`
+应用会自动拦截所有不属于 `hanime1.me` 域名的链接（使用严格的域名验证）:
+- ✅ 允许: `https://hanime1.me`（精确匹配）
+- ✅ 允许: `https://www.hanime1.me`（子域名）
+- ✅ 允许: `https://any.subdomain.hanime1.me`（所有子域名）
+- ✅ 允许: `about:blank`（安全的内部页面）
 - ❌ 拦截: 所有其他域名（广告、跳转等）
+- ❌ 拦截: `evil-hanime1.me.attacker.com`（恶意域名，不是真正的子域名）
+- ❌ 拦截: `javascript:`、`data:` 等不安全的协议
 
 当用户点击外部链接时，会显示 Toast 提示："已拦截外部链接: [域名]"
+
+### 安全性增强
+- 使用严格的域名后缀匹配（`.endsWith(".hanime1.me")`）而非简单的包含检查
+- 只允许 `about:blank`，拒绝其他 `about:`、`javascript:`、`data:` 等不安全协议
+- 防止 XSS 攻击和恶意内容加载
 
 ## 输出文件
 

@@ -14,7 +14,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Update Submodule
         run: |
-          git submodule update --init --recursive
+          # Retry logic for submodule update
+          max_attempts=3
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            git submodule update --init --recursive && break
+            attempt=$((attempt+1))
+            echo "Submodule update attempt $attempt failed. Retrying..."
+            sleep 5
+          done
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Submodule update failed after $max_attempts attempts"
+            exit 1
+          fi
 
       - name: set up JDK 11
         uses: actions/setup-java@v4
@@ -29,20 +41,61 @@ jobs:
 
       - name: Setup Bun
         run: |
-          curl -fsSL https://bun.sh/install | bash
+          # Retry logic for Bun installation
+          max_attempts=3
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            curl -fsSL https://bun.sh/install | bash && break
+            attempt=$((attempt+1))
+            echo "Bun installation attempt $attempt failed. Retrying..."
+            sleep 5
+          done
           echo "$HOME/.bun/bin" >> $GITHUB_PATH
-          curl -fsSL https://get.pnpm.io/install.sh | sh -
+          
+          # Retry logic for pnpm installation
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            curl -fsSL https://get.pnpm.io/install.sh | sh - && break
+            attempt=$((attempt+1))
+            echo "pnpm installation attempt $attempt failed. Retrying..."
+            sleep 5
+          done
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./WebApkShell/gradlew
 
       - name: Install Dependency
-        run: bun i
+        run: |
+          # Retry logic for dependency installation
+          max_attempts=3
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            bun i && break
+            attempt=$((attempt+1))
+            echo "Dependency installation attempt $attempt failed. Retrying..."
+            sleep 5
+          done
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Dependency installation failed after $max_attempts attempts"
+            exit 1
+          fi
 
       - name: Build with Gradle
         run: |
           cp WebApkShell/genApk.ts .
-          bun genApk.ts
+          # Retry logic for Gradle build
+          max_attempts=3
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            bun genApk.ts && break
+            attempt=$((attempt+1))
+            echo "Gradle build attempt $attempt failed. Retrying..."
+            sleep 10
+          done
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Gradle build failed after $max_attempts attempts"
+            exit 1
+          fi
 
       - name: Create date tag
         id: tag_step
@@ -55,7 +108,20 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git tag $TAG
-          git push origin $TAG
+          
+          # Retry logic for git push
+          max_attempts=3
+          attempt=0
+          until [ $attempt -ge $max_attempts ]; do
+            git push origin $TAG && break
+            attempt=$((attempt+1))
+            echo "Git push attempt $attempt failed. Retrying..."
+            sleep 5
+          done
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Git push failed after $max_attempts attempts"
+            exit 1
+          fi
 
           # 输出 tag 名
           echo "tag_name=$TAG" >> $GITHUB_OUTPUT

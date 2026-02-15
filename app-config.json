@@ -1,8 +1,8 @@
 {
   "appName": "jable",
-  "packageId": "com.jable.app",
-  "appUrl": "https://jable.tv",
-  "allowedDomains": ["jable.tv","cloudflare.com"],
+  "packageId": "com.missav.app",
+  "appUrl": "https://missav.ws/",
+  "allowedDomains": ["missav.ws","cloudflare.com"],
   "versionName": "",
   "icon": ""
 }
